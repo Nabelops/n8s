@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tailscale-operator
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://pkgs.tailscale.com/helm-charts
+    targetRevision: 1.94.2
+    chart: tailscale-operator
+    helm:
+      values: |
+        oauth:
+          secretName: operator-oauth
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tailscale
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
