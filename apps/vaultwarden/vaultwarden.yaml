@@ -3,6 +3,18 @@ kind: Namespace
 metadata:
   name: vaultwarden
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vaultwarden-pvc
+  namespace: vaultwarden
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,9 +47,8 @@ spec:
               cpu: "500m"
       volumes:
         - name: vw-data
-          hostPath:
-            path: /var/lib/vaultwarden
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: vaultwarden-pvc
 ---
 apiVersion: v1
 kind: Service
