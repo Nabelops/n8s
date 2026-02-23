@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vaultwarden-backup
+  namespace: vaultwarden
+spec:
+  schedule: "0 3 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: alpine:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache sqlite tar
+              TS=$(date +%Y%m%d-%H%M%S)
+              BACKUP_DIR="/backup/$TS"
+              mkdir -p "$BACKUP_DIR"
+              echo "Starting backup to $BACKUP_DIR..."
+              sqlite3 /data/db.sqlite3 ".backup '$BACKUP_DIR/db.sqlite3'"
+              [ -f /data/config.json ] && cp /data/config.json "$BACKUP_DIR/"
+              [ -f /data/rsa_key.pem ] && cp /data/rsa_key.pem "$BACKUP_DIR/"
+              [ -f /data/rsa_key.pub.pem ] && cp /data/rsa_key.pub.pem "$BACKUP_DIR/"
+              if [ -d /data/attachments ]; then
+                tar czf "$BACKUP_DIR/attachments.tar.gz" -C /data attachments
+              fi
+              echo "Backup completed. Cleaning up old backups..."
+              find /backup -maxdepth 1 -type d -mtime +7 -exec rm -rf {} \;
+              echo "Cleanup done."
+            volumeMounts:
+            - name: vw-data
+              mountPath: /data
+              readOnly: true
+            - name: vw-backup
+              mountPath: /backup
+          restartPolicy: OnFailure
+          volumes:
+          - name: vw-data
+            persistentVolumeClaim:
+              claimName: vaultwarden-pvc
+          - name: vw-backup
+            persistentVolumeClaim:
+              claimName: vaultwarden-backup-pvc
