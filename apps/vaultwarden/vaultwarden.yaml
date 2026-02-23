@@ -55,8 +55,6 @@ kind: Service
 metadata:
   name: vaultwarden-service
   namespace: vaultwarden
-  annotations:
-    tailscale.com/expose: "true"
 spec:
   type: LoadBalancer
   selector:
