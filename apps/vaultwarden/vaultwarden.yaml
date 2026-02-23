@@ -55,12 +55,29 @@ kind: Service
 metadata:
   name: vaultwarden-service
   namespace: vaultwarden
-  annotations:
-    tailscale.com/expose: "true"
 spec:
-  type: LoadBalancer
   selector:
     app: vaultwarden
   ports:
     - port: 80
       targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vaultwarden-ingress
+  namespace: vaultwarden
+  annotations:
+    tailscale.com/hostname: vaultwarden
+spec:
+  ingressClassName: tailscale
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vaultwarden-service
+            port:
+              number: 80
