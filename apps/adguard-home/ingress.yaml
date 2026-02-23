@@ -19,11 +19,4 @@ spec:
           service:
             name: adguard-home-web
             port:
-              number: 80
-      - path: /setup
-        pathType: Prefix
-        backend:
-          service:
-            name: adguard-home-web
-            port:
               number: 3000
