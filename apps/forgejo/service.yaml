@@ -3,12 +3,16 @@ kind: Service
 metadata:
   name: forgejo-service
   namespace: forgejo
+  annotations:
+    tailscale.com/hostname: git
 spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale.com/remote-assign
   selector:
     app: forgejo
   ports:
     - name: http
-      port: 3000
+      port: 80
       targetPort: 3000
     - name: ssh
       port: 22
