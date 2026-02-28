@@ -1,15 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: forgejo
-  namespace: forgejo
+  name: argocd-server-ingress
+  namespace: argocd
   annotations:
-    tailscale.com/hostname: git
+    tailscale.com/hostname: argo
 spec:
   ingressClassName: tailscale
   tls:
     - hosts:
-        - git
+        - argo
   rules:
   - http:
       paths:
@@ -17,6 +17,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: forgejo-service
+            name: argocd-server
             port:
-              number: 3000
+              number: 80
