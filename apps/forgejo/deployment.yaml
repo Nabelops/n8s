@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: forgejo
-          image: codeberg.org/forgejo/forgejo:latest
+          image: codeberg.org/forgejo/forgejo:14
           env:
             - name: USER_UID
               value: "1000"
