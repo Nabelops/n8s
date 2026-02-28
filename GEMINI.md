@@ -31,5 +31,8 @@ As this is a manifest-only repository, most actions are performed via `kubectl` 
 ## Development Conventions
 - **GitOps:** All changes to the cluster state should be made via commits to this repository.
 - **Automated Sync:** Applications are configured with `automated` sync policy, including `prune: true` and `selfHeal: true`.
-- **Namespacing:** Each application typically manages its own namespace via `namespace.yaml` and Kustomize.
+- **Namespacing:** Each application must include a `namespace.yaml` file. The corresponding ArgoCD `Application` should also have `CreateNamespace=true` set for robust bootstrapping.
+- **Networking (Tailscale):** Services should be exposed via Ingress using `ingressClassName: tailscale` and the `tailscale.com/hostname` annotation to define their private DNS name.
+- **Permissions:** For containers requiring persistent storage, prefer running with `USER_UID: "1000"` and `USER_GID: "1000"` to ensure consistent volume permissions across the cluster.
+- **Service Selection:** Favor lightweight, Go-based, or container-native applications (e.g., Forgejo, Vaultwarden, AdGuard Home) to minimize resource footprint.
 - **Vaultwarden Backups:** `vaultwarden` includes a `cronjob.yaml` for database backups.
