@@ -6,12 +6,16 @@ metadata:
   annotations:
     tailscale.com/hostname: git
     tailscale.com/expose: "true"
+    tailscale.com/tls-terminate: "true"
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale.com/remote-assign
   selector:
     app: forgejo
   ports:
+    - name: https
+      port: 443
+      targetPort: 3000
     - name: http
       port: 80
       targetPort: 3000
