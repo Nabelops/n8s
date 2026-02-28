@@ -21,14 +21,19 @@ spec:
               value: "1000"
             - name: USER_GID
               value: "1000"
+            - name: TAILNET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: tailscale-config
+                  key: tailnet-name
             - name: FORGEJO__database__DB_TYPE
               value: "sqlite3"
             - name: FORGEJO__server__DOMAIN
-              value: "git"
+              value: "git.$(TAILNET_NAME)"
             - name: FORGEJO__server__SSH_DOMAIN
-              value: "git"
+              value: "git.$(TAILNET_NAME)"
             - name: FORGEJO__server__ROOT_URL
-              value: "https://git/"
+              value: "https://git.$(TAILNET_NAME)/"
           ports:
             - name: http
               containerPort: 3000
