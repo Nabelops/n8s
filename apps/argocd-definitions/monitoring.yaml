@@ -37,11 +37,11 @@ spec:
             size: 2Gi
             storageClassName: local-path
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 472
+            runAsGroup: 472
+            fsGroup: 472
           initChownData:
-            enabled: false
+            enabled: true
           sidecar:
             dashboards:
               enabled: true
