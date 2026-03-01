@@ -36,6 +36,10 @@ spec:
             enabled: true
             size: 2Gi
             storageClassName: local-path
+          admin:
+            existingSecret: grafana-admin-credentials
+            userKey: admin-user
+            passwordKey: admin-password
           securityContext:
             runAsUser: 472
             runAsGroup: 472
