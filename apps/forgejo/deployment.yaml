@@ -29,9 +29,9 @@ spec:
             - name: FORGEJO__database__DB_TYPE
               value: "sqlite3"
             - name: FORGEJO__server__DOMAIN
-              value: "forge.$(TAILNET_NAME)"
+              value: "git.$(TAILNET_NAME)"
             - name: FORGEJO__server__ROOT_URL
-              value: "https://forge.$(TAILNET_NAME)/"
+              value: "https://git.$(TAILNET_NAME)/"
           ports:
             - name: http
               containerPort: 3000
