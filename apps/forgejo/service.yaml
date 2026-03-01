@@ -3,23 +3,11 @@ kind: Service
 metadata:
   name: forgejo-service
   namespace: forgejo
-  annotations:
-    tailscale.com/hostname: forge
-    tailscale.com/expose: "true"
-    tailscale.com/tls-terminate: "true"
-    tailscale.com/tls-cert: "true"
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale.com/remote-assign
+  type: ClusterIP
   selector:
     app: forgejo
   ports:
-    - name: https
-      port: 443
-      targetPort: 3000
-    - name: http
-      port: 80
-      targetPort: 3000
-    - name: ssh
-      port: 22
-      targetPort: 22
+  - name: http
+    port: 80
+    targetPort: 3000

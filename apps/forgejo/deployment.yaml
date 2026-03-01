@@ -30,15 +30,11 @@ spec:
               value: "sqlite3"
             - name: FORGEJO__server__DOMAIN
               value: "forge.$(TAILNET_NAME)"
-            - name: FORGEJO__server__SSH_DOMAIN
-              value: "forge.$(TAILNET_NAME)"
             - name: FORGEJO__server__ROOT_URL
               value: "https://forge.$(TAILNET_NAME)/"
           ports:
             - name: http
               containerPort: 3000
-            - name: ssh
-              containerPort: 22
           volumeMounts:
             - name: forgejo-data
               mountPath: /data
