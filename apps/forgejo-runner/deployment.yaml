@@ -30,7 +30,7 @@ spec:
             - name: USER_GID
               value: "1000"
             - name: DOCKER_HOST
-              value: ""
+              value: "tcp://localhost:2375"
             - name: FORGEJO_INSTANCE_URL
               value: "http://forgejo-service.forgejo.svc.cluster.local"
             - name: FORGEJO_RUNNER_REGISTRATION_TOKEN
