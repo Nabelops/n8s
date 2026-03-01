@@ -13,6 +13,12 @@ spec:
       labels:
         app: personal-site
     spec:
+      hostAliases:
+        - ip: "100.108.136.1"
+          hostnames:
+            - "git.tailf95ba8.ts.net"
+      imagePullSecrets:
+        - name: forgejo-registry-secret
       containers:
         - name: personal-site
           image: git.tailf95ba8.ts.net/nabelops/folio:latest
