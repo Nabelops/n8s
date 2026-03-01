@@ -5,6 +5,8 @@ metadata:
   namespace: forgejo-runner
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: forgejo-runner
@@ -16,6 +18,7 @@ spec:
       serviceAccountName: forgejo-runner
       securityContext:
         fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: runner
           image: code.forgejo.org/forgejo/runner:12.7.1
