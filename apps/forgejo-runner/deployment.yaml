@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forgejo-runner
+  namespace: forgejo-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: forgejo-runner
+  template:
+    metadata:
+      labels:
+        app: forgejo-runner
+    spec:
+      containers:
+        - name: runner
+          image: codeberg.org/forgejo/act_runner:latest
+          env:
+            - name: USER_UID
+              value: "1000"
+            - name: USER_GID
+              value: "1000"
+            - name: GITEA_INSTANCE_URL
+              value: "http://forgejo-service.forgejo.svc.cluster.local"
+            - name: GITEA_RUNNER_REGISTRATION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-runner-config
+                  key: token
+            - name: GITEA_RUNNER_NAME
+              value: "n8s-runner"
+            - name: GITEA_RUNNER_LABELS
+              value: "ubuntu-latest:docker://node:18-bullseye,ubuntu-22.04:docker://node:18-bullseye,ubuntu-20.04:docker://node:16-bullseye"
+          volumeMounts:
+            - name: runner-data
+              mountPath: /data
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: runner-data
+          persistentVolumeClaim:
+            claimName: runner-data
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
