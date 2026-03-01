@@ -15,13 +15,12 @@ data:
         - "ubuntu-22.04:docker://node:18-bullseye"
         - "ubuntu-20.04:docker://node:18-bullseye"
       capacity: 1
-      envs:
-        DOCKER_HOST: "tcp://localhost:2375"
     container:
-      type: k8s
-      network: ""
-      privileged: false
-      options: |
+      # Use native kubernetes engine instead of type: k8s
+      engine: kubernetes
+      kubernetes:
+        namespace: forgejo-runner
+        service_account_name: forgejo-runner
         resources:
           requests:
             cpu: "250m"
@@ -31,5 +30,4 @@ data:
             memory: "1Gi"
       workdir_parent: ""
       valid_volumes: []
-      docker_host: "tcp://localhost:2375"
       force_pull: false
