@@ -16,8 +16,8 @@ spec:
       containers:
         - name: runner
           image: code.forgejo.org/forgejo/runner:12.7.1
-          args:
-            - daemon
+          command: ["forgejo-runner"]
+          args: ["daemon"]
           env:
             - name: USER_UID
               value: "1000"
