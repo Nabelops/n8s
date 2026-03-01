@@ -33,7 +33,7 @@ data:
       network: ""
       enable_ipv6: false
       privileged: false
-      docker_host: "-"
+      docker_host: "automount"
       force_pull: false
       force_rebuild: false
       options: "--add-host git.tailf95ba8.ts.net:100.108.136.1"
