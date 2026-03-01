@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: runner
-          image: forgejo/runner:latest
+          image: codeberg.org/forgejo/runner:3.3.0
           env:
             - name: USER_UID
               value: "1000"
