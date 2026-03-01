@@ -15,22 +15,22 @@ spec:
     spec:
       containers:
         - name: runner
-          image: gitea/act_runner:latest
+          image: code.forgejo.org/forgejo/runner:12
           env:
             - name: USER_UID
               value: "1000"
             - name: USER_GID
               value: "1000"
-            - name: GITEA_INSTANCE_URL
+            - name: FORGEJO_INSTANCE_URL
               value: "http://forgejo-service.forgejo.svc.cluster.local"
-            - name: GITEA_RUNNER_REGISTRATION_TOKEN
+            - name: FORGEJO_RUNNER_REGISTRATION_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: forgejo-runner-config
                   key: token
-            - name: GITEA_RUNNER_NAME
+            - name: FORGEJO_RUNNER_NAME
               value: "n8s-runner"
-            - name: GITEA_RUNNER_LABELS
+            - name: FORGEJO_RUNNER_LABELS
               value: "ubuntu-latest:docker://node:18-bullseye,ubuntu-22.04:docker://node:18-bullseye,ubuntu-20.04:docker://node:16-bullseye"
           volumeMounts:
             - name: runner-data
