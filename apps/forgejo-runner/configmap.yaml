@@ -17,7 +17,10 @@ data:
       fetch_timeout: 5s
       fetch_interval: 2s
       report_interval: 1s
-      labels: [] # Labels will be provided during registration
+      labels:
+        - "ubuntu-latest:docker://node:22-bookworm"
+        - "ubuntu-22.04:docker://node:22-bookworm"
+        - "ubuntu-20.04:docker://node:20-bookworm"
 
     cache:
       enabled: true
