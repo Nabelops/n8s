@@ -21,7 +21,7 @@ spec:
         - name: forgejo-registry-secret
       containers:
         - name: personal-site
-          image: forgejo-service.forgejo.svc.cluster.local/nabelops/folio:latest
+          image: 10.43.194.246/nabelops/folio:latest
           imagePullPolicy: Always
           ports:
             - name: http
