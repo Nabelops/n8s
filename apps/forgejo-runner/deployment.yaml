@@ -30,7 +30,7 @@ spec:
                   --token "$FORGEJO_RUNNER_REGISTRATION_TOKEN" \
                   --name "$FORGEJO_RUNNER_NAME" \
                   --instance "$FORGEJO_INSTANCE_URL" \
-                  --labels "ubuntu-latest:docker://node:20-bookworm,ubuntu-22.04:docker://node:20-bookworm,ubuntu-20.04:docker://node:20-bookworm" \
+                  --labels "ubuntu-latest:docker://node:22-bookworm,ubuntu-22.04:docker://node:22-bookworm,ubuntu-20.04:docker://node:20-bookworm" \
                   --config /etc/runner/config.yml;
               fi
               forgejo-runner daemon --config /etc/runner/config.yml
