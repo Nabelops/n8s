@@ -15,6 +15,8 @@ data:
         - "ubuntu-22.04:docker://node:18-bullseye"
         - "ubuntu-20.04:docker://node:18-bullseye"
       capacity: 1
+      envs:
+        DOCKER_HOST: ""
     container:
       type: k8s
       network: ""
@@ -29,5 +31,5 @@ data:
             memory: "1Gi"
       workdir_parent: ""
       valid_volumes: []
-      docker_host: ""
+      docker_host: "-"
       force_pull: false
