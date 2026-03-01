@@ -13,6 +13,10 @@ spec:
       values: |
         prometheus:
           prometheusSpec:
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            probeSelectorNilUsesHelmValues: false
             retention: 30d
             storageSpec:
               volumeClaimTemplate:
@@ -59,6 +63,14 @@ spec:
           enabled: false
         kubeProxy:
           enabled: false
+        kubeEtcd:
+          enabled: false
+        prometheusOperator:
+          admissionWebhooks:
+            certManager:
+              enabled: false
+            patch:
+              enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
