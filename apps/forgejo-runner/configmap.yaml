@@ -15,8 +15,7 @@ data:
         - "ubuntu-22.04:docker://node:18-bullseye"
         - "ubuntu-20.04:docker://node:18-bullseye"
       capacity: 1
-    container:
-      # Use native kubernetes engine instead of type: k8s
+      # Move engine and kubernetes settings here
       engine: kubernetes
       kubernetes:
         namespace: forgejo-runner
@@ -28,6 +27,7 @@ data:
           limits:
             cpu: "1000m"
             memory: "1Gi"
+    container:
       workdir_parent: ""
       valid_volumes: []
       force_pull: false
