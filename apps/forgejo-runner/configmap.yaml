@@ -9,6 +9,7 @@ data:
       level: info
     runner:
       instance: http://forgejo-service.forgejo.svc.cluster.local
+      file: /data/.runner
       labels:
         - "ubuntu-latest:docker://node:18-bullseye"
         - "ubuntu-22.04:docker://node:18-bullseye"
