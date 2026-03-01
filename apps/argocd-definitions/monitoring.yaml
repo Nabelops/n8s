@@ -35,6 +35,19 @@ spec:
           persistence:
             enabled: true
             size: 2Gi
+            storageClassName: local-path
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          initChownData:
+            enabled: false
+          sidecar:
+            dashboards:
+              enabled: true
+              searchNamespace: ALL
+            datasources:
+              enabled: true
         # K3s compatibility: these components are often internal to k3s
         kubeControllerManager:
           enabled: false
