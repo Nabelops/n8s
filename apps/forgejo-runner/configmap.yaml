@@ -7,27 +7,29 @@ data:
   config.yml: |
     log:
       level: info
+      job_level: info
+
     runner:
-      instance: http://forgejo-service.forgejo.svc.cluster.local
       file: /data/.runner
-      labels:
-        - "ubuntu-latest:docker://node:18-bullseye"
-        - "ubuntu-22.04:docker://node:18-bullseye"
-        - "ubuntu-20.04:docker://node:18-bullseye"
       capacity: 1
-      # Move engine and kubernetes settings here
-      engine: kubernetes
-      kubernetes:
-        namespace: forgejo-runner
-        service_account_name: forgejo-runner
-        resources:
-          requests:
-            cpu: "250m"
-            memory: "256Mi"
-          limits:
-            cpu: "1000m"
-            memory: "1Gi"
+      timeout: 3h
+      shutdown_timeout: 3h
+      fetch_timeout: 5s
+      fetch_interval: 2s
+      report_interval: 1s
+      labels: [] # Labels will be provided during registration
+
+    cache:
+      enabled: true
+      dir: "/data/.cache"
+      host: ""
+      port: 0
+      proxy_port: 0
+
     container:
-      workdir_parent: ""
-      valid_volumes: []
+      network: ""
+      enable_ipv6: false
+      privileged: false
+      docker_host: "-"
       force_pull: false
+      force_rebuild: false

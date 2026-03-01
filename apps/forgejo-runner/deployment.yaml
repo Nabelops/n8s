@@ -14,21 +14,27 @@ spec:
         app: forgejo-runner
     spec:
       serviceAccountName: forgejo-runner
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: runner
           image: code.forgejo.org/forgejo/runner:12.7.1
+          securityContext:
+            runAsUser: 1000
           command: ["sh", "-c"]
           args:
             - |
+              sleep 5;
               if [ ! -f /data/.runner ]; then
-                forgejo-runner register --no-interactive --token "$FORGEJO_RUNNER_REGISTRATION_TOKEN" --name "$FORGEJO_RUNNER_NAME" --instance "$FORGEJO_INSTANCE_URL" --config /etc/runner/config.yml;
+                forgejo-runner register --no-interactive \
+                  --token "$FORGEJO_RUNNER_REGISTRATION_TOKEN" \
+                  --name "$FORGEJO_RUNNER_NAME" \
+                  --instance "$FORGEJO_INSTANCE_URL" \
+                  --labels "ubuntu-latest:docker://node:20-bookworm,ubuntu-22.04:docker://node:20-bookworm,ubuntu-20.04:docker://node:20-bookworm" \
+                  --config /etc/runner/config.yml;
               fi
               forgejo-runner daemon --config /etc/runner/config.yml
           env:
-            - name: USER_UID
-              value: "1000"
-            - name: USER_GID
-              value: "1000"
             - name: FORGEJO_INSTANCE_URL
               value: "http://forgejo-service.forgejo.svc.cluster.local"
             - name: FORGEJO_RUNNER_REGISTRATION_TOKEN
@@ -38,6 +44,8 @@ spec:
                   key: token
             - name: FORGEJO_RUNNER_NAME
               value: "k8s-runner"
+            - name: DOCKER_HOST
+              value: "tcp://localhost:2375"
           volumeMounts:
             - name: config
               mountPath: /etc/runner
@@ -46,11 +54,26 @@ spec:
               mountPath: /data
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: "256Mi"
+              cpu: "200m"
             limits:
+              memory: "1Gi"
+              cpu: "1000m"
+        - name: dind
+          image: docker:dind
+          securityContext:
+            privileged: true
+          command: ["dockerd", "-H", "tcp://localhost:2375", "--tls=false"]
+          resources:
+            requests:
               memory: "512Mi"
               cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+          volumeMounts:
+            - name: docker-lib
+              mountPath: /var/lib/docker
       volumes:
         - name: config
           configMap:
@@ -58,3 +81,5 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: forgejo-runner-data
+        - name: docker-lib
+          emptyDir: {}
