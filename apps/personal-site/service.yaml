@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: personal-site-service
+  namespace: personal-site
+spec:
+  selector:
+    app: personal-site
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4000
