@@ -68,7 +68,7 @@ spec:
               cpu: "1000m"
 
         - name: n8n-runner
-          image: docker.n8n.io/n8nio/runners:latest
+          image: n8nio/runners:latest
           env:
             - name: N8N_RUNNERS_TASK_BROKER_URI
               value: "http://localhost:5679"
