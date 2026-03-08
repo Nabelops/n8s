@@ -1,12 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: authentik
+  name: authentik-ingress
   namespace: authentik
   annotations:
     tailscale.com/hostname: sso
 spec:
   ingressClassName: tailscale
+  tls:
+    - hosts:
+        - sso
   rules:
     - http:
         paths:
@@ -16,4 +19,4 @@ spec:
               service:
                 name: authentik
                 port:
-                  name: http
+                  number: 80
