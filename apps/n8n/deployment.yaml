@@ -56,6 +56,21 @@ spec:
               value: "n8n.$(TAILNET_NAME)"
             - name: WEBHOOK_URL
               value: "https://n8n.$(TAILNET_NAME)/"
+            - name: DB_TYPE
+              value: "postgresdb"
+            - name: DB_POSTGRESDB_HOST
+              value: "n8n-db-rw"
+            - name: DB_POSTGRESDB_PORT
+              value: "5432"
+            - name: DB_POSTGRESDB_DATABASE
+              value: "n8n"
+            - name: DB_POSTGRESDB_USER
+              value: "n8n"
+            - name: DB_POSTGRESDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-db-creds
+                  key: password
           volumeMounts:
             - name: n8n-data
               mountPath: /home/node/.n8n
