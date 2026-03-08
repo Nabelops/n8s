@@ -4,6 +4,9 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - postgres.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
 
 commonLabels:
   app: authentik

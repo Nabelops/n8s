@@ -5,7 +5,12 @@ metadata:
   namespace: authentik
 spec:
   instances: 2
-  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  imageName: ghcr.io/cloudnative-pg/postgresql:17
+
+  # Increase connections for Redis-less Authentik
+  postgresql:
+    parameters:
+      max_connections: "200"
 
   storage:
     size: 5Gi
