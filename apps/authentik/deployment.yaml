@@ -20,6 +20,8 @@ spec:
           envFrom:
             - secretRef:
                 name: authentik-secrets
+            - secretRef:
+                name: authentik-db-creds
           env:
             - name: AUTHENTIK_POSTGRESQL__HOST
               value: "authentik-db-rw"
@@ -51,6 +53,8 @@ spec:
           envFrom:
             - secretRef:
                 name: authentik-secrets
+            - secretRef:
+                name: authentik-db-creds
           env:
             - name: AUTHENTIK_POSTGRESQL__HOST
               value: "authentik-db-rw"
