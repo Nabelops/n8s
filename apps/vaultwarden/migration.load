@@ -1,0 +1,7 @@
+LOAD DATABASE
+     FROM sqlite:///sqlite/db.sqlite3
+     INTO postgresql://${USERNAME}:${PASSWORD}@vaultwarden-db-rw/vaultwarden
+
+ WITH include drop, create tables, create indexes, reset sequences, data only
+
+  SET work_mem = '128MB', maintenance_work_mem = '256MB';
