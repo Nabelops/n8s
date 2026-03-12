@@ -13,10 +13,11 @@ spec:
         - /bin/sh
         - -c
         - |
-          # Run pgloader
+          # Run pgloader in data-only mode
           pgloader --verbose --debug \
             --set "work_mem='128MB'" \
             --set "maintenance_work_mem='256MB'" \
+            --data-only \
             /sqlite/db.sqlite3 \
             postgresql://${USERNAME}:${PASSWORD}@vaultwarden-db-rw/vaultwarden
         env:
