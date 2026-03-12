@@ -13,13 +13,6 @@ spec:
         - /bin/sh
         - -c
         - |
-          # Wait for the database to be ready
-          echo "Waiting for PostgreSQL to be ready..."
-          until pg_isready -h vaultwarden-db-rw; do
-            sleep 2
-          done
-          echo "PostgreSQL is ready."
-
           # Run pgloader
           pgloader --verbose --debug \
             --set "work_mem='128MB'" \
