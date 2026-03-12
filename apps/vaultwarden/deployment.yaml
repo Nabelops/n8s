@@ -16,6 +16,14 @@ spec:
       containers:
         - name: vaultwarden
           image: vaultwarden/server:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-db-creds
+                  key: uri
+            - name: DATABASE_MAX_CONNS
+              value: "10"
           ports:
             - containerPort: 80
           volumeMounts:

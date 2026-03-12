@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vaultwarden-migration
+  namespace: vaultwarden
+spec:
+  template:
+    spec:
+      containers:
+      - name: pgloader
+        image: dimitri/pgloader:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          # Wait for the database to be ready
+          echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -h vaultwarden-db-rw; do
+            sleep 2
+          done
+          echo "PostgreSQL is ready."
+
+          # Run pgloader
+          pgloader --verbose --debug \
+            --set "work_mem='128MB'" \
+            --set "maintenance_work_mem='256MB'" \
+            /sqlite/db.sqlite3 \
+            postgresql://${USERNAME}:${PASSWORD}@vaultwarden-db-rw/vaultwarden
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: vaultwarden-db-creds
+              key: username
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: vaultwarden-db-creds
+              key: password
+        volumeMounts:
+        - name: sqlite-data
+          mountPath: /sqlite
+          readOnly: true
+      restartPolicy: OnFailure
+      volumes:
+      - name: sqlite-data
+        persistentVolumeClaim:
+          claimName: vaultwarden-pvc
