@@ -27,7 +27,23 @@ spec:
                   name: tailscale-config
                   key: tailnet-name
             - name: FORGEJO__database__DB_TYPE
-              value: "sqlite3"
+              value: "postgres"
+            - name: FORGEJO__database__HOST
+              value: "forgejo-db-rw:5432"
+            - name: FORGEJO__database__NAME
+              value: "forgejo"
+            - name: FORGEJO__database__USER
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-db-creds
+                  key: username
+            - name: FORGEJO__database__PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-db-creds
+                  key: password
+            - name: FORGEJO__database__SSL_MODE
+              value: "disable"
             - name: FORGEJO__server__DOMAIN
               value: "git.$(TAILNET_NAME)"
             - name: FORGEJO__server__ROOT_URL
