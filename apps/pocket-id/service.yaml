@@ -3,10 +3,6 @@ kind: Service
 metadata:
   name: pocket-id
   namespace: pocket-id
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: auth
-    tailscale.com/tls: "true"
 spec:
   selector:
     app: pocket-id
@@ -14,6 +10,10 @@ spec:
     - protocol: TCP
       name: http
       port: 80
+      targetPort: 1411
+    - protocol: TCP
+      name: https
+      port: 443
       targetPort: 1411
     - protocol: TCP
       name: https

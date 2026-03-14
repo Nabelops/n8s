@@ -18,3 +18,5 @@ data:
       - profile
       - email
       - groups
+    config:
+      insecureSkipVerify: true

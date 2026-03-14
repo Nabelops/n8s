@@ -1,4 +1,6 @@
-# This file is empty because the hostAliases patch is no longer needed 
-# after CoreDNS is configured to forward .ts.net to Tailscale.
-# Keeping the file as empty or removing the patch from kustomization.yaml
-[]
+- op: add
+  path: /spec/template/spec/hostAliases
+  value:
+    - hostnames:
+        - auth.tailf95ba8.ts.net
+      ip: 10.43.45.140
