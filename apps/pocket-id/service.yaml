@@ -15,7 +15,3 @@ spec:
       name: https
       port: 443
       targetPort: 1411
-    - protocol: TCP
-      name: https
-      port: 443
-      targetPort: 1411
