@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: pocket-id
   namespace: argocd
+  annotations:
+    link.argocd.argoproj.io/external-link: https://auth.tailf95ba8.ts.net
 spec:
   project: default
   source:
