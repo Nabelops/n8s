@@ -4,4 +4,7 @@ resources:
   - argocd-rbac-cm.yaml
 
 patches:
-  - path: argocd-server-patch.yaml
+  - target:
+      kind: Deployment
+      name: argocd-server
+    path: argocd-server-patch.yaml
