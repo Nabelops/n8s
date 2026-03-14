@@ -8,3 +8,9 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argo.tailf95ba8.ts.net
+  oidc.config: |
+    name: Pocket-ID
+    issuer: https://auth.tailf95ba8.ts.net
+    clientID: 59cca452-5fc4-47bf-8756-f9cf2fefd44b
+    clientSecret: $argocd-oidc-secret:clientSecret
+    requestedScopes: ["openid", "profile", "email", "groups"]

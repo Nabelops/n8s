@@ -8,5 +8,5 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   policy.csv: |
-    g, "Full lab access", role:admin
+    g, full_lab_access, role:admin
   policy.default: role:readonly
