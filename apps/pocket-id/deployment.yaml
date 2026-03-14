@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pocket-id
-          image: ghcr.io/pocket-id/pocket-id:v2
+          image: ghcr.io/pocket-id/pocket-id:latest
           env:
             - name: APP_URL
               value: "https://auth.tailf95ba8.ts.net"
