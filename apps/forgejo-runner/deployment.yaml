@@ -19,10 +19,6 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
-      hostAliases:
-        - ip: "100.108.136.1"
-          hostnames:
-            - "git.tailf95ba8.ts.net"
       containers:
         - name: runner
           image: code.forgejo.org/forgejo/runner:12.7.1

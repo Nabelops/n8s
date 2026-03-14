@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  tailscale.server: |
+    tailf95ba8.ts.net {
+        forward . 100.100.100.100
+    }

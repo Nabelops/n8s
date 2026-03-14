@@ -2,9 +2,3 @@ resources:
   - ingress.yaml
   - argocd-cm.yaml
   - argocd-rbac-cm.yaml
-
-patches:
-  - target:
-      kind: Deployment
-      name: argocd-server
-    path: argocd-server-patch.yaml
