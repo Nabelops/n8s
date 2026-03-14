@@ -7,5 +7,7 @@ data:
   tailscale.server: |
     tailf95ba8.ts.net {
         rewrite stop name auth.tailf95ba8.ts.net pocket-id.pocket-id.svc.cluster.local
+        rewrite stop name git.tailf95ba8.ts.net forgejo-service.forgejo.svc.cluster.local
+        rewrite stop name folio.tailf95ba8.ts.net personal-site-service.personal-site.svc.cluster.local
         forward . 100.100.100.100
     }
