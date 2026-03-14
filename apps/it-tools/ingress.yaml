@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: it-tools
+  namespace: it-tools
+  annotations:
+    tailscale.com/hostname: it-tools
+spec:
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - it-tools
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: it-tools-service
+                port:
+                  number: 80
