@@ -15,13 +15,27 @@ spec:
     spec:
       containers:
         - name: pocket-id
-          image: stonith404/pocket-id:latest
+          image: ghcr.io/pocket-id/pocket-id:v2
           env:
-            - name: PUBLIC_APP_URL
+            - name: APP_URL
               value: "https://auth.tailf95ba8.ts.net"
+            - name: TRUST_PROXY
+              value: "true"
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: pocket-id-secrets
+                  key: ENCRYPTION_KEY
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 1411
+          livenessProbe:
+            exec:
+              command:
+                - /app/pocket-id
+                - healthcheck
+            initialDelaySeconds: 10
+            periodSeconds: 90
           volumeMounts:
             - name: pocket-id-data
               mountPath: /app/data
