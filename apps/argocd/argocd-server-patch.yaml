@@ -1,6 +1,6 @@
 - op: add
   path: /spec/template/spec/hostAliases
   value:
-    - ip: 10.43.45.140
+    - ip: 10.43.155.110
       hostnames:
         - auth.tailf95ba8.ts.net
