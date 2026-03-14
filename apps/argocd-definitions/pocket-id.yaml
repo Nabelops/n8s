@@ -5,6 +5,8 @@ metadata:
   namespace: argocd
   annotations:
     link.argocd.argoproj.io/external-link: https://auth.tailf95ba8.ts.net
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
