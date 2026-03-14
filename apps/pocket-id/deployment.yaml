@@ -5,6 +5,8 @@ metadata:
   namespace: pocket-id
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: pocket-id
@@ -29,6 +31,13 @@ spec:
           ports:
             - name: http
               containerPort: 1411
+          livenessProbe:
+            exec:
+              command:
+                - /app/pocket-id
+                - healthcheck
+            initialDelaySeconds: 30
+            periodSeconds: 60
           volumeMounts:
             - name: pocket-id-data
               mountPath: /app/data
