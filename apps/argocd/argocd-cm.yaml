@@ -8,9 +8,3 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argo.tailf95ba8.ts.net
-  oidc.config: |
-    name: Authentik
-    issuer: https://sso.tailf95ba8.ts.net/application/o/argo/
-    clientID: jwFNTRJYgNVaYBcxRggIw4XZiNqwJEklXpbHxzZa
-    clientSecret: $argocd-authentik-sso:client-secret
-    requestedScopes: ["openid", "profile", "email", "groups"]
