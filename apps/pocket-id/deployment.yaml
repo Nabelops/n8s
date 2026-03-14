@@ -28,6 +28,11 @@ spec:
                 secretKeyRef:
                   name: pocket-id-secrets
                   key: ENCRYPTION_KEY
+            - name: MAXMIND_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: pocket-id-secrets
+                  key: MAXMIND_LICENSE_KEY
           ports:
             - name: http
               containerPort: 1411
