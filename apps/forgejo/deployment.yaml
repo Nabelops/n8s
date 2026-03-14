@@ -50,19 +50,11 @@ spec:
               value: "https://git.$(TAILNET_NAME)/"
             - name: FORGEJO__actions__ENABLED
               value: "true"
-            - name: FORGEJO__auth__OAUTH2_ENABLED
-              value: "true"
-            - name: FORGEJO__auth__OAUTH2_CLIENT_ID
-              value: "forgejo"
-            - name: FORGEJO__auth__OAUTH2_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: forgejo-oidc-secret
-                  key: client-secret
-            - name: FORGEJO__auth__OAUTH2_ISSUER_URL
-              value: "https://auth.tailf95ba8.ts.net"
-            - name: FORGEJO__auth__OAUTH2_ACCOUNT_LINKING
-              value: "auto"
+            # Disable legacy OpenID to avoid confusion
+            - name: FORGEJO__openid__ENABLE_OPENID_SIGNIN
+              value: "false"
+            - name: FORGEJO__openid__ENABLE_OPENID_USER_CAP
+              value: "false"
           ports:
             - name: http
               containerPort: 3000
