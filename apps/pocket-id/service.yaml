@@ -6,6 +6,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: auth
+    tailscale.com/tls: "true"
 spec:
   selector:
     app: pocket-id
