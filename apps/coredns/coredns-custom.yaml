@@ -6,5 +6,6 @@ metadata:
 data:
   tailscale.server: |
     tailf95ba8.ts.net {
+        rewrite stop name auth.tailf95ba8.ts.net pocket-id.pocket-id.svc.cluster.local
         forward . 100.100.100.100
     }

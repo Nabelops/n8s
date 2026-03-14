@@ -3,10 +3,14 @@ kind: Service
 metadata:
   name: pocket-id
   namespace: pocket-id
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: auth
 spec:
   selector:
     app: pocket-id
   ports:
     - protocol: TCP
+      name: http
       port: 80
       targetPort: 1411
