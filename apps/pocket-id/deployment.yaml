@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pocket-id
-          image: ghcr.io/pocket-id/pocket-id:latest
+          image: ghcr.io/pocket-id/pocket-id:v2
           env:
             - name: APP_URL
               value: "https://auth.tailf95ba8.ts.net"
@@ -29,13 +29,6 @@ spec:
           ports:
             - name: http
               containerPort: 1411
-          livenessProbe:
-            exec:
-              command:
-                - /app/pocket-id
-                - healthcheck
-            initialDelaySeconds: 10
-            periodSeconds: 90
           volumeMounts:
             - name: pocket-id-data
               mountPath: /app/data
@@ -50,3 +43,4 @@ spec:
         - name: pocket-id-data
           persistentVolumeClaim:
             claimName: pocket-id-data
+
