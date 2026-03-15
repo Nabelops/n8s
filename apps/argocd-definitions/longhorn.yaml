@@ -16,6 +16,13 @@ spec:
         values: |
           preUpgradeChecker:
             jobEnabled: false
+          ingress:
+            enabled: true
+            ingressClassName: tailscale
+            host: longhorn
+            annotations:
+              tailscale.com/hostname: longhorn
+            tls: true
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
