@@ -4,6 +4,7 @@ metadata:
   name: forgejo-runner-data
   namespace: forgejo-runner
 spec:
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
