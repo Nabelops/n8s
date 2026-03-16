@@ -4,7 +4,7 @@ metadata:
   name: forgejo
   namespace: forgejo
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: forgejo
