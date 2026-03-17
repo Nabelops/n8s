@@ -4,6 +4,7 @@ metadata:
   name: pocket-id-data
   namespace: pocket-id
 spec:
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
