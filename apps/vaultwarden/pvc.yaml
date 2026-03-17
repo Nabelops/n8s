@@ -16,6 +16,7 @@ metadata:
   name: vaultwarden-backup-pvc
   namespace: vaultwarden
 spec:
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
