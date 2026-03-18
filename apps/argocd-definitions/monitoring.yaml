@@ -15,7 +15,7 @@ spec:
       values: |
         prometheus:
           prometheusSpec:
-            replicas: 0
+            replicas: 1
             ruleSelectorNilUsesHelmValues: false
             serviceMonitorSelectorNilUsesHelmValues: false
             podMonitorSelectorNilUsesHelmValues: false
@@ -29,7 +29,7 @@ spec:
                     requests:
                       storage: 10Gi
         grafana:
-          replicas: 0
+          replicas: 1
           ingress:
             enabled: true
             ingressClassName: tailscale
