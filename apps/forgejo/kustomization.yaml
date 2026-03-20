@@ -3,6 +3,8 @@ kind: Kustomization
 
 resources:
   - sealed-secret.yaml
+  - oidc-sealed-secret.yaml
+  - tailscale-sealed-secret.yaml
   - namespace.yaml
   - postgres.yaml
   - pvc.yaml
