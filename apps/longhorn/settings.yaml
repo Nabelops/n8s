@@ -1,4 +1,14 @@
 apiVersion: longhorn.io/v1beta2
+kind: BackupTarget
+metadata:
+  name: default
+  namespace: longhorn-system
+spec:
+  backupTargetSecret: longhorn-backup-secret
+  backupTargetURL: "s3://nabelops-n8s@us-east-005/"
+  pollInterval: 300
+---
+apiVersion: longhorn.io/v1beta2
 kind: Setting
 metadata:
   name: backup-target
