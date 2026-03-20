@@ -16,6 +16,9 @@ spec:
         values: |
           preUpgradeChecker:
             jobEnabled: false
+          defaultSettings:
+            backupTarget: s3://nabelops-n8s@us-east-005/
+            backupTargetSecret: longhorn-backup-secret
           ingress:
             enabled: true
             ingressClassName: tailscale
