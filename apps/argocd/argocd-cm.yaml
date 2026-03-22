@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argo.tailf95ba8.ts.net
-  server.insecure: "true"
   oidc.config: |
     name: Pocket-ID
     issuer: https://auth.tailf95ba8.ts.net
