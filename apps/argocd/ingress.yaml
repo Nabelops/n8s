@@ -5,7 +5,6 @@ metadata:
   namespace: argocd
   annotations:
     tailscale.com/hostname: argo
-    tailscale.com/backend-protocol: https
 spec:
   ingressClassName: tailscale
   tls:
@@ -20,4 +19,4 @@ spec:
           service:
             name: argocd-server
             port:
-              number: 443
+              number: 80
