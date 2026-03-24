@@ -15,10 +15,8 @@ spec:
     enablePodMonitor: true
 
   bootstrap:
-    recovery:
-      source: "snapshot-bootstrap"
-
-  externalClusters:
-    - name: "snapshot-bootstrap"
-      snapshot:
-        name: "snap-ef46f0c8c3fc4ab3"
+    initdb:
+      database: vaultwarden
+      owner: vaultwarden
+      secret:
+        name: vaultwarden-db-creds
