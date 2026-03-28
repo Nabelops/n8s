@@ -60,6 +60,11 @@ spec:
               searchNamespace: ALL
             datasources:
               enabled: true
+        prometheus-node-exporter:
+          hostPort: 9101
+          service:
+            port: 9101
+            targetPort: 9101
         # K3s compatibility: these components are often internal to k3s
         kubeControllerManager:
           enabled: false
