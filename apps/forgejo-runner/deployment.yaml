@@ -69,6 +69,9 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: Unconfined
+            capabilities:
+              add:
+                - NET_ADMIN
           args:
             - "-H"
             - "tcp://0.0.0.0:2375"
@@ -77,10 +80,6 @@ spec:
           env:
             - name: XDG_RUNTIME_DIR
               value: "/run/user/1000"
-            - name: DOCKERD_ROOTLESS_ROOTLESSKIT_NET
-              value: "host"
-            - name: DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS
-              value: "--port-driver=none"
           resources:
             requests:
               memory: "512Mi"
