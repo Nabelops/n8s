@@ -63,10 +63,20 @@ spec:
               memory: "1Gi"
               cpu: "1000m"
         - name: dind
-          image: docker:dind
+          image: docker:dind-rootless
           securityContext:
-            privileged: true
-          command: ["dockerd", "-H", "tcp://localhost:2375", "--tls=false"]
+            runAsUser: 1000
+            runAsNonRoot: true
+            seccompProfile:
+              type: Unconfined
+          args:
+            - "-H"
+            - "tcp://0.0.0.0:2375"
+            - "--tls=false"
+            - "--iptables=false"
+          env:
+            - name: XDG_RUNTIME_DIR
+              value: "/run/user/1000"
           resources:
             requests:
               memory: "512Mi"
@@ -76,7 +86,9 @@ spec:
               cpu: "2000m"
           volumeMounts:
             - name: docker-lib
-              mountPath: /var/lib/docker
+              mountPath: /home/rootless/.local/share/docker
+            - name: docker-run
+              mountPath: /run/user/1000
       volumes:
         - name: config
           configMap:
@@ -85,4 +97,6 @@ spec:
           persistentVolumeClaim:
             claimName: forgejo-runner-data
         - name: docker-lib
+          emptyDir: {}
+        - name: docker-run
           emptyDir: {}
