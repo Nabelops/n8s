@@ -14,7 +14,7 @@ coder:
   ingress:
     enable: true
     host: "coder.tailf95ba8.ts.net"
-    ingressClassName: tailscale
+    className: tailscale
     annotations:
       tailscale.com/hostname: coder
     tls:
