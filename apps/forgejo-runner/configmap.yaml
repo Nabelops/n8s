@@ -30,7 +30,7 @@ data:
       proxy_port: 0
 
     container:
-      network: "bridge"
+      network: "host"
       enable_ipv6: false
       privileged: false
       docker_host: "automount"
