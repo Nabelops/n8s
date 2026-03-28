@@ -80,7 +80,7 @@ spec:
             - name: DOCKERD_ROOTLESS_ROOTLESSKIT_NET
               value: "host"
             - name: DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER
-              value: "implicit"
+              value: "none"
           resources:
             requests:
               memory: "512Mi"
