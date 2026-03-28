@@ -14,6 +14,12 @@ spec:
   monitoring:
     enablePodMonitor: true
 
+  managed:
+    roles:
+      - name: coder
+        passwordSecret:
+          name: coder-db-url
+
   bootstrap:
     initdb:
       database: coder
