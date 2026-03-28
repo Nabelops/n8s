@@ -15,6 +15,7 @@ coder:
     type: ClusterIP
   ingress:
     enable: true
+    host: "coder.tailf95ba8.ts.net"
     ingressClassName: tailscale
     annotations:
       tailscale.com/hostname: coder
