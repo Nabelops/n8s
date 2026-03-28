@@ -11,6 +11,8 @@ coder:
       value: "false"
     - name: CODER_ACCESS_URL
       value: "https://coder.tailf95ba8.ts.net"
+  service:
+    type: ClusterIP
   ingress:
     enable: true
     className: tailscale
