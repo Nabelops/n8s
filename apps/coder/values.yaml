@@ -18,4 +18,5 @@ coder:
     ingressClassName: tailscale
     annotations:
       tailscale.com/hostname: coder
-    tls: true
+    tls:
+      enable: true
