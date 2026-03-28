@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coder
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - chart: coder
+      repoURL: https://helm.coder.com/v2
+      targetRevision: 2.29.5
+      helm:
+        valueFiles:
+          - $values/apps/coder/values.yaml
+    - repoURL: https://github.com/Nabelops/n8s.git
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://github.com/Nabelops/n8s.git
+      targetRevision: HEAD
+      path: apps/coder
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: coder
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
