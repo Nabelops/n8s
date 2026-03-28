@@ -77,6 +77,10 @@ spec:
           env:
             - name: XDG_RUNTIME_DIR
               value: "/run/user/1000"
+            - name: DOCKERD_ROOTLESS_ROOTLESSKIT_NET
+              value: "host"
+            - name: DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER
+              value: "implicit"
           resources:
             requests:
               memory: "512Mi"
