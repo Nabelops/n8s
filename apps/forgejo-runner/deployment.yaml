@@ -91,7 +91,6 @@ spec:
           configMap:
             name: runner-config
         - name: data
-          persistentVolumeClaim:
-            claimName: forgejo-runner-data
+          emptyDir: {}
         - name: docker-lib
           emptyDir: {}
