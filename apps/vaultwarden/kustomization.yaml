@@ -3,10 +3,11 @@ kind: Kustomization
 
 resources:
   - sealed-secret.yaml
+  - backup-sealed-secret.yaml
   - namespace.yaml
   - postgres.yaml
+  - backup.yaml
   - pvc.yaml
   - deployment.yaml
   - service.yaml
   - ingress.yaml
-  - cronjob.yaml

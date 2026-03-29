@@ -4,21 +4,9 @@ metadata:
   name: vaultwarden-pvc
   namespace: vaultwarden
 spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: vaultwarden-backup-pvc
-  namespace: vaultwarden
-spec:
   storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
