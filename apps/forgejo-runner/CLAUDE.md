@@ -14,7 +14,6 @@ Forgejo runner deployed as a single pod with two containers:
 
 ## CI image builds
 
-Use Kaniko instead of `docker build/push` in workflows:
-- Run via `docker run gcr.io/kaniko-project/executor:latest` inside the job
-- Write registry auth to `$GITHUB_WORKSPACE/.docker/config.json` and mount it into the Kaniko container
-- Pass `--skip-tls-verify` for the Tailscale-hosted registry
+Use the Docker CLI (`docker login` + `docker build` + `docker push`) in workflows — Kaniko is not needed here because DinD is already available.
+
+Volume mounts (`-v`) do NOT work for sharing files between the runner and DinD: the runner and DinD are separate containers with separate filesystems. The DinD daemon cannot access paths under `$GITHUB_WORKSPACE`. Use `docker login --password-stdin` to authenticate; Docker will write the credential into the runner container's own config, which is used for subsequent `docker push` calls via the TCP socket.
