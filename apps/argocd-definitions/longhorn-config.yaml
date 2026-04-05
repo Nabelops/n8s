@@ -12,6 +12,11 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
+  ignoreDifferences:
+    - group: longhorn.io
+      kind: Setting
+      jsonPointers:
+        - /value
   syncPolicy:
     automated:
       prune: true
