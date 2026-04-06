@@ -4,3 +4,4 @@ resources:
   - namespace.yaml
   - postgres.yaml
   - sealed-secret.yaml
+  - sealed-secret-oidc.yaml

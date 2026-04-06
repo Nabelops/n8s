@@ -9,6 +9,20 @@ coder:
       value: "false"
     - name: CODER_ACCESS_URL
       value: "https://coder.tailf95ba8.ts.net"
+    - name: CODER_OIDC_ISSUER_URL
+      value: "https://auth.tailf95ba8.ts.net"
+    - name: CODER_OIDC_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: coder-oidc-secret
+          key: client-id
+    - name: CODER_OIDC_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: coder-oidc-secret
+          key: client-secret
+    - name: CODER_OIDC_ALLOW_SIGNUPS
+      value: "true"
   service:
     type: ClusterIP
   ingress:
