@@ -27,7 +27,7 @@ spec:
             - --host=0.0.0.0
             - --port=8000
             - --max-model-len=32768
-            - --gpu-memory-utilization=0.90
+            - --gpu-memory-utilization=0.85
             - --async-scheduling
             - --enable-auto-tool-choice
             - --reasoning-parser=gemma4
