@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm
+  namespace: vllm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      tolerations:
+        - key: gpu
+          value: amd
+          effect: NoSchedule
+      nodeSelector:
+        kubernetes.io/hostname: talos-wwr-4t6
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai-rocm:gemma4
+          args:
+            - --model=google/gemma-4-31B-it
+            - --host=0.0.0.0
+            - --port=8000
+            - --max-model-len=32768
+            - --gpu-memory-utilization=0.90
+            - --async-scheduling
+            - --enable-auto-tool-choice
+            - --reasoning-parser=gemma4
+            - --tool-call-parser=gemma4
+          env:
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: vllm-hf-token
+                  key: token
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            requests:
+              cpu: "8"
+              memory: 16Gi
+              amd.com/gpu: "1"
+            limits:
+              cpu: "16"
+              memory: 32Gi
+              amd.com/gpu: "1"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 300
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 600
+            periodSeconds: 60
+            timeoutSeconds: 10
+            failureThreshold: 3
+          volumeMounts:
+            - name: shm
+              mountPath: /dev/shm
+            - name: hf-cache
+              mountPath: /root/.cache/huggingface
+      volumes:
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 16Gi
+        - name: hf-cache
+          hostPath:
+            path: /var/lib/vllm/hf-cache
+            type: DirectoryOrCreate

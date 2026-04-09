@@ -32,3 +32,7 @@ cmd/argocd-server/argocd-server
 
 # ignore generated `.argocd-helm-dep-up` marker file; this should not be committed to git
 reposerver/repository/testdata/**/.argocd-helm-dep-up
+
+# plaintext secret templates — seal these before committing
+apps/**/secret.yaml
+apps/**/secret-*.yaml
