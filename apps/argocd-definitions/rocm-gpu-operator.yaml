@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://rocm.github.io/gpu-operator
     targetRevision: v1.4.1
-    chart: gpu-operator
+    chart: gpu-operator-charts
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
