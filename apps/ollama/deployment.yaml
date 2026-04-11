@@ -69,15 +69,9 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
           volumeMounts:
-            - name: shm
-              mountPath: /dev/shm
             - name: ollama-data
               mountPath: /root/.ollama
       volumes:
-        - name: shm
-          emptyDir:
-            medium: Memory
-            sizeLimit: 16Gi
         - name: ollama-data
           hostPath:
             path: /var/lib/ollama
