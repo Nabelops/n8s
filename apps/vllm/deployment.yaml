@@ -40,7 +40,7 @@ spec:
             - --enable-auto-tool-choice
             - --reasoning-parser=gemma4
             - --tool-call-parser=gemma4
-            # - --chat-template=examples/tool_chat_template_gemma4.jinja
+            - --chat-template=/app/vllm/examples/tool_chat_template_gemma4.jinja
             - --async-scheduling
           env:
             - name: HF_TOKEN
