@@ -20,10 +20,8 @@ spec:
             - name: http
               containerPort: 8080
           env:
-            - name: OPENAI_API_BASE_URLS
-              value: "http://ollama-api.ollama.svc.cluster.local:11434/v1"
-            - name: OPENAI_API_KEYS
-              value: "unused"
+            - name: OLLAMA_BASE_URLS
+              value: "http://ollama-api.ollama.svc.cluster.local:11434"
             - name: WEBUI_AUTH
               value: "true"
             - name: OAUTH_PROVIDER_NAME
