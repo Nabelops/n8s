@@ -37,7 +37,6 @@ spec:
             - --reasoning-parser=gemma4
             - --tool-call-parser=gemma4
             - --attention-backend=TRITON_ATTN
-            - --kv-cache-dtype=bfloat16
             - --dtype=bfloat16
           env:
             - name: HF_TOKEN
