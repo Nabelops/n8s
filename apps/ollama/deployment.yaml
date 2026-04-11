@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+  namespace: ollama
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 3600
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      tolerations:
+        - key: gpu
+          value: amd
+          effect: NoSchedule
+      nodeSelector:
+        kubernetes.io/hostname: talos-wwr-4t6
+      containers:
+        - name: ollama
+          image: ollama/ollama:rocm
+          env:
+            - name: OLLAMA_FLASH_ATTENTION
+              value: "1"
+            - name: OLLAMA_KEEP_ALIVE
+              value: "-1"
+            - name: HSA_OVERRIDE_GFX_VERSION
+              value: "11.5.1"
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+          ports:
+            - containerPort: 11434
+              name: http
+          resources:
+            requests:
+              cpu: "8"
+              memory: 8Gi
+              amd.com/gpu: "1"
+            limits:
+              cpu: "16"
+              memory: 16Gi
+              amd.com/gpu: "1"
+          startupProbe:
+            httpGet:
+              path: /api/tags
+              port: 11434
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /api/tags
+              port: 11434
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /api/tags
+              port: 11434
+            periodSeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: shm
+              mountPath: /dev/shm
+            - name: ollama-data
+              mountPath: /root/.ollama
+      volumes:
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 16Gi
+        - name: ollama-data
+          hostPath:
+            path: /var/lib/ollama
+            type: DirectoryOrCreate

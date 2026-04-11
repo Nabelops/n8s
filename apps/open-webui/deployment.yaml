@@ -21,7 +21,7 @@ spec:
               containerPort: 8080
           env:
             - name: OPENAI_API_BASE_URLS
-              value: "http://vllm-api.vllm.svc.cluster.local:8000/v1"
+              value: "http://ollama-api.ollama.svc.cluster.local:11434/v1"
             - name: OPENAI_API_KEYS
               value: "unused"
             - name: WEBUI_AUTH
