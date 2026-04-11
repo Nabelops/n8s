@@ -6,6 +6,8 @@ metadata:
 spec:
   replicas: 1
   progressDeadlineSeconds: 3600
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: vllm
