@@ -30,8 +30,8 @@ spec:
             - google/gemma-4-26B-A4B-it
             - --host=0.0.0.0
             - --port=8000
-            - --max-model-len=32768
-            - --gpu-memory-utilization=0.85
+            - --max-model-len=131072
+            - --gpu-memory-utilization=0.90
             - --kv-cache-dtype=fp8
             - --dtype=bfloat16
             - --enforce-eager
