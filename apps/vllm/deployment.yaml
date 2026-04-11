@@ -26,7 +26,8 @@ spec:
         - name: vllm
           image: vllm/vllm-openai-rocm:gemma4
           args:
-            - --model=google/gemma-4-31B-it
+            - --model=QuantTrio/gemma-4-31B-it-AWQ
+            - --quantization=awq
             - --host=0.0.0.0
             - --port=8000
             - --max-model-len=32768
