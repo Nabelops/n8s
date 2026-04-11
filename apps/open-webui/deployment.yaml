@@ -26,13 +26,31 @@ spec:
               value: "unused"
             - name: WEBUI_AUTH
               value: "true"
+            - name: OAUTH_PROVIDER_NAME
+              value: "Pocket ID"
+            - name: OAUTH_CLIENT_ID
+              value: "7024e6e9-9107-4dd6-a6fa-8b6b737233fa"
+            - name: OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: open-webui-secrets
+                  key: OAUTH_CLIENT_SECRET
+            - name: OPENID_PROVIDER_URL
+              value: "https://auth.tailf95ba8.ts.net/.well-known/openid-configuration"
+            - name: OAUTH_SCOPES
+              value: "openid email profile"
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-webui-secrets
+                  key: HF_TOKEN
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
               memory: "1Gi"
-              cpu: "500m"
+              cpu: "250m"
+            limits:
+              memory: "4Gi"
+              cpu: "2"
           volumeMounts:
             - name: data
               mountPath: /app/backend/data
