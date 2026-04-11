@@ -26,24 +26,27 @@ spec:
         - name: vllm
           image: vllm/vllm-openai-rocm:gemma4
           args:
-            - --model=google/gemma-4-31B-it
+            - google/gemma-4-31B-it
             - --host=0.0.0.0
             - --port=8000
             - --max-model-len=32768
-            - --gpu-memory-utilization=0.80
-            - --enforce-eager
-            - --async-scheduling
+            - --gpu-memory-utilization=0.90
+            - --kv-cache-dtype=fp8
+            - --dtype=bfloat16
+            - --attention-backend=TRITON_ATTN
             - --enable-auto-tool-choice
             - --reasoning-parser=gemma4
             - --tool-call-parser=gemma4
-            - --attention-backend=TRITON_ATTN
-            - --dtype=bfloat16
           env:
             - name: HF_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: vllm-hf-token
                   key: token
+            - name: PYTORCH_TUNABLEOP_ENABLED
+              value: "1"
+            - name: TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL
+              value: "1"
           securityContext:
             seccompProfile:
               type: Unconfined
@@ -53,16 +56,17 @@ spec:
           resources:
             requests:
               cpu: "8"
-              memory: 48Gi
+              memory: 64Gi
               amd.com/gpu: "1"
             limits:
               cpu: "16"
-              memory: 96Gi
+              memory: 110Gi
               amd.com/gpu: "1"
           startupProbe:
             httpGet:
               path: /health
               port: 8000
+            initialDelaySeconds: 120
             periodSeconds: 60
             timeoutSeconds: 10
             failureThreshold: 60
