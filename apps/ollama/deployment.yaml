@@ -4,7 +4,7 @@ metadata:
   name: ollama
   namespace: ollama
 spec:
-  replicas: 1
+  replicas: 0
   progressDeadlineSeconds: 3600
   strategy:
     type: Recreate
