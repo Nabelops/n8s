@@ -16,6 +16,7 @@ spec:
       labels:
         app: vllm
     spec:
+      enableServiceLinks: false
       tolerations:
         - key: gpu
           value: amd
@@ -26,27 +27,27 @@ spec:
         - name: vllm
           image: vllm/vllm-openai-rocm:gemma4
           args:
-            - google/gemma-4-31B-it
+            - google/gemma-4-26B-A4B-it
             - --host=0.0.0.0
             - --port=8000
             - --max-model-len=32768
-            - --gpu-memory-utilization=0.90
+            - --gpu-memory-utilization=0.85
             - --kv-cache-dtype=fp8
             - --dtype=bfloat16
+            - --enforce-eager
+            - --max-num-seqs=8
             - --attention-backend=TRITON_ATTN
             - --enable-auto-tool-choice
             - --reasoning-parser=gemma4
             - --tool-call-parser=gemma4
+            - --chat-template=examples/tool_chat_template_gemma4.jinja
+            - --async-scheduling
           env:
             - name: HF_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: vllm-hf-token
                   key: token
-            - name: PYTORCH_TUNABLEOP_ENABLED
-              value: "1"
-            - name: TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL
-              value: "1"
           securityContext:
             seccompProfile:
               type: Unconfined
@@ -56,11 +57,11 @@ spec:
           resources:
             requests:
               cpu: "8"
-              memory: 64Gi
+              memory: 96Gi
               amd.com/gpu: "1"
             limits:
               cpu: "16"
-              memory: 110Gi
+              memory: 112Gi
               amd.com/gpu: "1"
           startupProbe:
             httpGet:
@@ -89,6 +90,8 @@ spec:
               mountPath: /dev/shm
             - name: hf-cache
               mountPath: /root/.cache/huggingface
+            - name: vllm-cache
+              mountPath: /root/.cache/vllm
       volumes:
         - name: shm
           emptyDir:
@@ -97,4 +100,8 @@ spec:
         - name: hf-cache
           hostPath:
             path: /var/lib/vllm/hf-cache
+            type: DirectoryOrCreate
+        - name: vllm-cache
+          hostPath:
+            path: /var/lib/vllm/vllm-cache
             type: DirectoryOrCreate
