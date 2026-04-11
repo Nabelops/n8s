@@ -25,7 +25,7 @@ spec:
         kubernetes.io/hostname: talos-wwr-4t6
       containers:
         - name: vllm
-          image: vllm/vllm-openai-rocm:gemma4
+          image: vllm/vllm-openai-rocm:nightly
           args:
             - google/gemma-4-26B-A4B-it
             - --host=0.0.0.0
@@ -40,6 +40,7 @@ spec:
             - --enable-auto-tool-choice
             - --reasoning-parser=gemma4
             - --tool-call-parser=gemma4
+            - --chat-template=examples/tool_chat_template_gemma4.jinja
             - --async-scheduling
           env:
             - name: HF_TOKEN
