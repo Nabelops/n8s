@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vllm
+  namespace: vllm
+  annotations:
+    tailscale.com/hostname: vllm
+spec:
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - vllm
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vllm-api
+                port:
+                  number: 8000
