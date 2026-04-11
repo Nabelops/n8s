@@ -5,6 +5,7 @@ metadata:
   namespace: vllm
 spec:
   replicas: 1
+  progressDeadlineSeconds: 3600
   selector:
     matchLabels:
       app: vllm
@@ -53,11 +54,17 @@ spec:
               cpu: "16"
               memory: 32Gi
               amd.com/gpu: "1"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            periodSeconds: 60
+            timeoutSeconds: 10
+            failureThreshold: 60
           readinessProbe:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 1200
             periodSeconds: 30
             timeoutSeconds: 10
             failureThreshold: 5
@@ -65,7 +72,6 @@ spec:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 1800
             periodSeconds: 60
             timeoutSeconds: 10
             failureThreshold: 3
