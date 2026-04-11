@@ -26,8 +26,7 @@ spec:
         - name: vllm
           image: vllm/vllm-openai-rocm:gemma4
           args:
-            - --model=QuantTrio/gemma-4-31B-it-AWQ
-            - --quantization=awq
+            - --model=google/gemma-4-31B-it
             - --host=0.0.0.0
             - --port=8000
             - --max-model-len=32768
@@ -37,6 +36,9 @@ spec:
             - --enable-auto-tool-choice
             - --reasoning-parser=gemma4
             - --tool-call-parser=gemma4
+            - --attention-backend=TRITON_ATTN
+            - --kv-cache-dtype=bfloat16
+            - --dtype=bfloat16
           env:
             - name: HF_TOKEN
               valueFrom:
