@@ -16,6 +16,13 @@ curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/reasonin
 curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/reasoning/basic_parsers.py \
   -o /usr/local/lib/python3.12/dist-packages/vllm/reasoning/basic_parsers.py
 
+# This vLLM build (e92668e83) doesn't invoke reasoning_parser.adjust_request(),
+# so the gemma4 parser can't flip skip_special_tokens=False and <|channel>
+# delimiters get stripped before extract_reasoning() sees them. Flip the
+# default instead — safe here since this server only runs gemma-4.
+sed -i 's/^\(\s*\)skip_special_tokens: bool = True$/\1skip_special_tokens: bool = False/' \
+  /usr/local/lib/python3.12/dist-packages/vllm/entrypoints/openai/chat_completion/protocol.py
+
 exec vllm serve google/gemma-4-E4B-it \
   --host=0.0.0.0 \
   --port=8000 \
