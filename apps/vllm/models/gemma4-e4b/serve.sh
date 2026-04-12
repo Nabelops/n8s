@@ -7,6 +7,15 @@ curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/examples/tool
 curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/tool_parsers/gemma4_tool_parser.py \
   -o /usr/local/lib/python3.12/dist-packages/vllm/tool_parsers/gemma4_tool_parser.py
 
+curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/reasoning/gemma4_reasoning_parser.py \
+  -o /usr/local/lib/python3.12/dist-packages/vllm/reasoning/gemma4_reasoning_parser.py
+
+curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/reasoning/gemma4_utils.py \
+  -o /usr/local/lib/python3.12/dist-packages/vllm/reasoning/gemma4_utils.py
+
+curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/reasoning/basic_parsers.py \
+  -o /usr/local/lib/python3.12/dist-packages/vllm/reasoning/basic_parsers.py
+
 exec vllm serve google/gemma-4-E4B-it \
   --host=0.0.0.0 \
   --port=8000 \
