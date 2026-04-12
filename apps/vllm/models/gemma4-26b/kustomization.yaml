@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+# Sets the container image for this model.
+images:
+  - name: vllm/vllm-openai-rocm
+    newTag: gemma4
+
+# Generates a ConfigMap named `vllm-model` with a hash-suffixed name.
+# The base Deployment's configMap volume reference to `vllm-model` is
+# auto-rewritten to the hashed name, so any edit to serve.sh triggers
+# a rollout (combined with strategy: Recreate, the old pod releases
+# the GPU before the new one starts).
+configMapGenerator:
+  - name: vllm-model
+    namespace: vllm
+    files:
+      - serve.sh
