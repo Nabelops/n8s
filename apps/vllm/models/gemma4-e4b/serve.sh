@@ -34,5 +34,5 @@ exec vllm serve google/gemma-4-E4B-it \
   --tool-call-parser=gemma4 \
   --chat-template=/app/vllm/examples/tool_chat_template_gemma4.jinja \
   --enable-prefix-caching \
-  --limit-mm-per-prompt image=0,audio=0 \
+  --limit-mm-per-prompt '{"image":0,"audio":0}' \
   --async-scheduling
