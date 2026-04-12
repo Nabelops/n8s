@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-# E4B uses its own embedded chat template from tokenizer_config.json.
-# Do NOT pull the gemma4 chat template / tool parser from vllm main — those
-# target the 26B A4B variant and break E4B's conversation format.
-# Re-add --chat-template / --reasoning-parser / --tool-call-parser only if
-# you confirm E4B-specific versions exist and match this tokenizer.
+curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/examples/tool_chat_template_gemma4.jinja \
+  -o /app/vllm/examples/tool_chat_template_gemma4.jinja
 
-exec vllm serve google/gemma-4-E4B \
+curl -sfL https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/tool_parsers/gemma4_tool_parser.py \
+  -o /usr/local/lib/python3.12/dist-packages/vllm/tool_parsers/gemma4_tool_parser.py
+
+exec vllm serve google/gemma-4-E4B-it \
   --host=0.0.0.0 \
   --port=8000 \
   --max-model-len=131072 \
@@ -17,4 +17,8 @@ exec vllm serve google/gemma-4-E4B \
   --enforce-eager \
   --max-num-seqs=8 \
   --attention-backend=TRITON_ATTN \
+  --enable-auto-tool-choice \
+  --reasoning-parser=gemma4 \
+  --tool-call-parser=gemma4 \
+  --chat-template=/app/vllm/examples/tool_chat_template_gemma4.jinja \
   --async-scheduling
