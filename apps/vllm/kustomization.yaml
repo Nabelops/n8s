@@ -7,5 +7,5 @@ resources:
 # Select the active model by pointing at exactly one component below.
 # Swapping models = change this one line, commit, ArgoCD syncs.
 components:
-  # - models/gemma4-26b
-  - models/gemma4-e4b
+  - models/gemma4-26b
+  # - models/gemma4-e4b

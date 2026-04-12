@@ -6,3 +6,13 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+
+configMapGenerator:
+  - name: vllm-gemma4-parsers
+    namespace: vllm
+    files:
+      - gemma4-parsers/tool_chat_template_gemma4.jinja
+      - gemma4-parsers/gemma4_tool_parser.py
+      - gemma4-parsers/gemma4_reasoning_parser.py
+      - gemma4-parsers/gemma4_utils.py
+      - gemma4-parsers/basic_parsers.py
