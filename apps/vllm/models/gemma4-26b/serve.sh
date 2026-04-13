@@ -24,7 +24,7 @@ exec vllm serve google/gemma-4-26B-A4B-it \
   --host=0.0.0.0 \
   --port=8000 \
   --max-model-len=65536 \
-  --gpu-memory-utilization=0.92 \
+  --gpu-memory-utilization=0.55 \
   --kv-cache-dtype=fp8 \
   --dtype=bfloat16 \
   --max-num-seqs=16 \
