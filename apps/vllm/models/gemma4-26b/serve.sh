@@ -27,7 +27,6 @@ exec vllm serve google/gemma-4-26B-A4B-it \
   --gpu-memory-utilization=0.92 \
   --kv-cache-dtype=fp8 \
   --dtype=bfloat16 \
-  --enforce-eager \
   --max-num-seqs=16 \
   --attention-backend=TRITON_ATTN \
   --enable-auto-tool-choice \
