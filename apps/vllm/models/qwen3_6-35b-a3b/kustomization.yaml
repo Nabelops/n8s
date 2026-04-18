@@ -1,0 +1,57 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+# Sets the container image and launch args for this model. Any change here
+# rewrites the Deployment's pod template, so ArgoCD sync triggers a rollout
+# (combined with strategy: Recreate, the old pod releases the GPU before the
+# new one starts).
+#
+# Sizing for Qwen3.6-35B-A3B on Strix Halo (128GB unified, ~120GB BIOS-exposed
+# VRAM):
+#   total weights (BF16): ~70GB (MoE — all experts loaded, 3B active per token)
+#   active weights per decode: ~6GB → much friendlier to unified-memory BW
+#   than dense 31B (62GB/token → ~3.5 tok/s).
+#   KV pool target: ~15GB via gpu-memory-utilization=0.85 → ~102GB budget
+#                   → weights + activations leave a modest KV pool.
+# --language-model-only skips the vision encoder (text-only workload).
+# Start with max-model-len=32768 — model supports 262K native / 1M with YaRN,
+# but KV budget is the constraint, not model capability. Retune upward once
+# steady-state memory is observed.
+# HF config reports arch 'Qwen3_5MoeForConditionalGeneration' (Qwen's internal
+# versioning lags their public name by one minor). Confirmed in v0.19.1 registry.
+images:
+  - name: vllm/vllm-openai-rocm
+    newTag: v0.19.1
+
+patches:
+  - target:
+      kind: Deployment
+      name: vllm
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: vllm
+      spec:
+        template:
+          spec:
+            containers:
+              - name: vllm
+                command: ["vllm"]
+                args:
+                  - serve
+                  - Qwen/Qwen3.6-35B-A3B
+                  - --host=0.0.0.0
+                  - --port=8000
+                  - --max-model-len=32768
+                  - --gpu-memory-utilization=0.85
+                  - --kv-cache-dtype=fp8
+                  - --dtype=bfloat16
+                  - --max-num-seqs=8
+                  - --attention-backend=TRITON_ATTN
+                  - --language-model-only
+                  - --enable-auto-tool-choice
+                  - --reasoning-parser=qwen3
+                  - --tool-call-parser=qwen3_coder
+                  - --enable-prefix-caching
+                  - --async-scheduling

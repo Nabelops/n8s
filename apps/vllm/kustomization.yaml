@@ -8,4 +8,5 @@ resources:
 # Swapping models = change this one line, commit, ArgoCD syncs.
 components:
   # - models/gemma4-26b
-  - models/gemma4-31b
+  # - models/gemma4-31b
+  - models/qwen3_6-35b-a3b
