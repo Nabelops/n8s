@@ -41,6 +41,10 @@ spec:
               value: "https://auth.tailf95ba8.ts.net/.well-known/openid-configuration"
             - name: OAUTH_SCOPES
               value: "openid email profile"
+            - name: ENABLE_OAUTH_SIGNUP
+              value: "true"
+            - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
+              value: "true"
             - name: HF_TOKEN
               valueFrom:
                 secretKeyRef:
