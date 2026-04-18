@@ -1,12 +1,42 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 
+# Sets the container image and launch args for this model. Any change here
+# rewrites the Deployment's pod template, so ArgoCD sync triggers a rollout
+# (combined with strategy: Recreate, the old pod releases the GPU before the
+# new one starts).
 images:
   - name: vllm/vllm-openai-rocm
-    newTag: gemma4
+    newTag: v0.19.1
 
-configMapGenerator:
-  - name: vllm-model
-    namespace: vllm
-    files:
-      - serve.sh
+patches:
+  - target:
+      kind: Deployment
+      name: vllm
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: vllm
+      spec:
+        template:
+          spec:
+            containers:
+              - name: vllm
+                command: ["vllm"]
+                args:
+                  - serve
+                  - google/gemma-4-E4B-it
+                  - --host=0.0.0.0
+                  - --port=8000
+                  - --max-model-len=65536
+                  - --gpu-memory-utilization=0.92
+                  - --kv-cache-dtype=fp8
+                  - --dtype=bfloat16
+                  - --max-num-seqs=16
+                  - --attention-backend=TRITON_ATTN
+                  - --enable-auto-tool-choice
+                  - --reasoning-parser=gemma4
+                  - --tool-call-parser=gemma4
+                  - --enable-prefix-caching
+                  - --async-scheduling
