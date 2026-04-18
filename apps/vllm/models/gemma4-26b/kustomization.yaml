@@ -4,7 +4,7 @@ kind: Component
 # Sets the container image for this model.
 images:
   - name: vllm/vllm-openai-rocm
-    newTag: gemma4
+    newTag: v0.19.1
 
 # Generates a ConfigMap named `vllm-model` with a hash-suffixed name.
 # The base Deployment's configMap volume reference to `vllm-model` is
