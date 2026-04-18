@@ -43,11 +43,11 @@ spec:
           resources:
             requests:
               cpu: "8"
-              memory: 64Gi
+              memory: 80Gi
               amd.com/gpu: "1"
             limits:
               cpu: "16"
-              memory: 75Gi
+              memory: 110Gi
               amd.com/gpu: "1"
           startupProbe:
             httpGet:

@@ -5,6 +5,13 @@ kind: Component
 # rewrites the Deployment's pod template, so ArgoCD sync triggers a rollout
 # (combined with strategy: Recreate, the old pod releases the GPU before the
 # new one starts).
+#
+# Sizing for dense 31B on Strix Halo (128GB unified, ~120GB BIOS-exposed VRAM):
+#   weights (BF16): ~62GB
+#   KV pool target: ~40GB via gpu-memory-utilization=0.85 → ~102GB budget
+#                   → leaves ~36GB for paged KV after weights + activations
+#   max-num-seqs=8 gives each concurrent request meaningful context headroom.
+# Pod memory limit is set in base/deployment.yaml (110Gi) to accommodate this.
 images:
   - name: vllm/vllm-openai-rocm
     newTag: v0.19.1
@@ -26,14 +33,14 @@ patches:
                 command: ["vllm"]
                 args:
                   - serve
-                  - google/gemma-4-E4B-it
+                  - google/gemma-4-31B-it
                   - --host=0.0.0.0
                   - --port=8000
                   - --max-model-len=65536
-                  - --gpu-memory-utilization=0.92
+                  - --gpu-memory-utilization=0.85
                   - --kv-cache-dtype=fp8
                   - --dtype=bfloat16
-                  - --max-num-seqs=16
+                  - --max-num-seqs=8
                   - --attention-backend=TRITON_ATTN
                   - --enable-auto-tool-choice
                   - --reasoning-parser=gemma4
