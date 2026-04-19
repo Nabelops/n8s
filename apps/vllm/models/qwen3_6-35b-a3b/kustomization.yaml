@@ -43,11 +43,11 @@ patches:
                   - Qwen/Qwen3.6-35B-A3B
                   - --host=0.0.0.0
                   - --port=8000
-                  - --max-model-len=32768
+                  - --max-model-len=131072
                   - --gpu-memory-utilization=0.94
                   - --kv-cache-dtype=fp8
                   - --dtype=bfloat16
-                  - --max-num-seqs=4
+                  - --max-num-seqs=2
                   - --attention-backend=TRITON_ATTN
                   - --language-model-only
                   - --enable-auto-tool-choice
