@@ -43,7 +43,7 @@ patches:
                   - Qwen/Qwen3.6-35B-A3B
                   - --host=0.0.0.0
                   - --port=8000
-                  - --max-model-len=16384
+                  - --max-model-len=32768
                   - --gpu-memory-utilization=0.94
                   - --kv-cache-dtype=fp8
                   - --dtype=bfloat16
@@ -55,4 +55,3 @@ patches:
                   - --tool-call-parser=qwen3_coder
                   - --enable-prefix-caching
                   - --async-scheduling
-                  - --enforce-eager

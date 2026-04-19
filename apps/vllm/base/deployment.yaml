@@ -4,7 +4,7 @@ metadata:
   name: vllm
   namespace: vllm
 spec:
-  replicas: 0
+  replicas: 1
   progressDeadlineSeconds: 3600
   strategy:
     type: Recreate
@@ -43,11 +43,11 @@ spec:
           resources:
             requests:
               cpu: "8"
-              memory: 80Gi
+              memory: 100Gi
               amd.com/gpu: "1"
             limits:
               cpu: "16"
-              memory: 110Gi
+              memory: 120Gi
               amd.com/gpu: "1"
           startupProbe:
             httpGet:
