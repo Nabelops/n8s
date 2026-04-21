@@ -1,0 +1,45 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+# Qwen3-Coder-30B-A3B-Instruct (GPTQ Int8), agentic-coding-tuned MoE.
+# Weights ~15GiB vs ~88GiB BF16 for Qwen3.6-35B → ~70GiB freed for KV pool,
+# enabling much higher max-num-seqs and/or larger contexts without preemption.
+# Int8 GPTQ runs on gfx1151 via vLLM's Triton GPTQ kernels (validated in
+# kyuz0/amd-strix-halo-vllm-toolboxes). Architecture is Qwen3MoE (not
+# Qwen3.5MoE), avoiding the gfx1151 graph-init hang in ROCm issue #6027.
+# Coder models are instruct-only (no <thinking> block) — reasoning-parser
+# is intentionally omitted.
+images:
+  - name: vllm/vllm-openai-rocm
+    newTag: v0.19.1
+
+patches:
+  - target:
+      kind: Deployment
+      name: vllm
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: vllm
+      spec:
+        template:
+          spec:
+            containers:
+              - name: vllm
+                command: ["vllm"]
+                args:
+                  - serve
+                  - btbtyler09/Qwen3-Coder-30B-A3B-Instruct-gptq-8bit
+                  - --host=0.0.0.0
+                  - --port=8000
+                  - --max-model-len=131072
+                  - --gpu-memory-utilization=0.94
+                  - --kv-cache-dtype=fp8
+                  - --dtype=bfloat16
+                  - --max-num-seqs=8
+                  - --attention-backend=TRITON_ATTN
+                  - --enable-auto-tool-choice
+                  - --tool-call-parser=qwen3_coder
+                  - --enable-prefix-caching
+                  - --async-scheduling
